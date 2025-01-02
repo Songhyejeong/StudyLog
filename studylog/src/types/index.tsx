@@ -8,3 +8,15 @@ export interface StudyLogWeekType {
   title: string;
   studyLogWeek: StudyLogDayType[];
 }
+
+export interface TodoContentType {
+  id: number;
+  isChecked: boolean;
+  todoName: string;
+  priority: string;
+}
+
+export interface TodoListType
+  extends Omit<StudyLogDayType, 'isCatStickerApplied'> {
+  todoList: TodoContentType[];
+}

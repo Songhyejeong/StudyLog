@@ -15,8 +15,8 @@ const TextField = ({
   id,
   register,
   error,
-  isRequired = false,
-  isDisabled = false,
+  isRequired,
+  isDisabled,
   placeholder,
 }: TextFieldFromProps) => {
   return (

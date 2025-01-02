@@ -12,7 +12,9 @@ const StudyLogButton: React.FC<StudyLogButton> = ({
   return (
     <button
       disabled={disabled}
-      className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-primary hover:bg-accent"
+      className={`py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-primary ${
+        disabled ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-accent'
+      }`}
     >
       {text}
     </button>

@@ -38,10 +38,10 @@ const AddWeekModal: React.FC<AddWeekModalProps> = ({
             placeholder="제목을 입력하세요(예시: 2025년 1월 마지막 주)"
             label="제목"
             error={errors.title?.message}
-            isDisabled={false}
+            isDisabled={isSubmitting}
             isRequired={true}
           />
-          <StudyLogButton disabled={isSubmitting} text="새로운 주 추가 하기" />
+          <StudyLogButton disabled={!isSubmitting} text="새로운 주 추가 하기" />
         </form>
       </div>
     )

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Main from './app/main/Main';
+import Todo from './app/todo/Todo';
 
 const App: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const App: React.FC = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Main />}></Route>
+          <Route path="todo" element={<Todo />}></Route>
         </Routes>
       </main>
     </BrowserRouter>
