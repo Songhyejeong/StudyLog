@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import StudyLogButton from '../Button/StudyLogButton';
+import GoogleLoginButton from '../Button/GoogleLoginButton';
 
 const Header: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const Header: React.FC = () => {
         <Link to="/" className="text-2xl  text-gray-800 ">
           StudyLog
         </Link>
-        <StudyLogButton text="Login" />
+        <GoogleLoginButton />
       </div>
     </header>
   );
