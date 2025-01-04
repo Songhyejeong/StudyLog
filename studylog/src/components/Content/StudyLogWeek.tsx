@@ -1,5 +1,6 @@
 import React from 'react';
 import { StudyLogDayType } from '../../types';
+import { weekType } from '../../types';
 import StudyLogDay from './StudyLogDay';
 import { addMissingDays } from '../../utils/StudyLog';
 
@@ -12,7 +13,7 @@ const StudyLogWeek: React.FC<StudyLogWeekProps> = ({
   title,
   studyLogWeek,
 }: StudyLogWeekProps) => {
-  const weekDays = ['월', '화', '수', '목', '금', '토', '일'];
+  const weekDays: weekType[] = ['월', '화', '수', '목', '금', '토', '일'];
 
   const weekWithDays = addMissingDays(weekDays, studyLogWeek).map(
     (studylog, index) => ({

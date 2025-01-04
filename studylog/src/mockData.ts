@@ -6,38 +6,39 @@ export const mockStudyLogList: StudyLogWeekType[] = [
     studyLogWeek: [
       {
         isCatStickerApplied: true,
-        timer: '1h 30m',
-        day: '월요일',
+        studyTime: 7200,
+        day: '월',
       },
       {
         isCatStickerApplied: true,
-        timer: '1h 30m',
-        day: '화요일',
+        studyTime: 8439,
+        day: '화',
       },
       {
         isCatStickerApplied: true,
-        timer: '1h 30m',
-        day: '수요일',
+        studyTime: 3948,
+        day: '수',
       },
       {
         isCatStickerApplied: false,
-        timer: null,
-        day: '목요일',
+        studyTime: 3948,
+        day: '목',
       },
       {
         isCatStickerApplied: false,
-        timer: null,
-        day: '금요일',
+        isToday: true,
+        studyTime: 3948,
+        day: '금',
       },
       {
         isCatStickerApplied: false,
-        timer: null,
-        day: '토요일',
+        studyTime: 3948,
+        day: '토',
       },
       {
         isCatStickerApplied: false,
-        timer: null,
-        day: '일요일',
+        studyTime: 3948,
+        day: '일',
       },
     ],
   },
@@ -46,18 +47,18 @@ export const mockStudyLogList: StudyLogWeekType[] = [
     studyLogWeek: [
       {
         isCatStickerApplied: true,
-        timer: '2h 30m',
-        day: '월요일',
+        studyTime: 3948,
+        day: '월',
       },
       {
         isCatStickerApplied: true,
-        timer: '1h 30m',
-        day: '화요일',
+        studyTime: 3948,
+        day: '화',
       },
       {
         isCatStickerApplied: true,
-        timer: '1h 30m',
-        day: '수요일',
+        studyTime: 3948,
+        day: '수',
       },
     ],
   },
@@ -66,12 +67,13 @@ export const mockStudyLogList: StudyLogWeekType[] = [
 export const mockTodoList: TodoListType[] = [
   {
     day: '월',
-    timer: '02:30',
+    studyTime: 3948,
     todoList: [
       {
         id: 1,
         isChecked: false,
         todoName: '타입스크립트 공부',
+        isToday: true,
         priority: 'high',
       },
       {
@@ -83,14 +85,14 @@ export const mockTodoList: TodoListType[] = [
       {
         id: 3,
         isChecked: false,
-        todoName: '타입스크립트 공부',
+        todoName: '타입스크립트 공부하기',
         priority: 'high',
       },
     ],
   },
   {
     day: '화',
-    timer: '01:45',
+    studyTime: 3948,
     todoList: [
       {
         id: 1,
