@@ -33,7 +33,7 @@ const StudyLogButton: React.FC<StudyLogButton> = ({
       onClick={onClick}
       className={`rounded-lg font-semibold transition-all ${sizeGroup[size]} ${
         disabled
-          ? 'text-white bg-blue-400 cursor-not-allowed'
+          ? 'text-white bg-gray-300 cursor-not-allowed'
           : colorGroup[color]
       }`}
     >
