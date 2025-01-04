@@ -3,7 +3,7 @@ import catSticker from '../../assets/cat.jpeg';
 
 interface StudyLogDayProps {
   isCatStickerApplied: boolean;
-  timer: string | null;
+  studyTime: number | null;
   day: string;
 }
 
@@ -27,20 +27,20 @@ const Sticker: React.FC<{ isCatStickerApplied: boolean }> = ({
   );
 };
 
-const Timer: React.FC<{ timer: string | null }> = ({ timer }) => {
-  return <p className="h-10 w-20 font-bold flex justify-center">{timer}</p>;
+const Timer: React.FC<{ studyTime: number | null }> = ({ studyTime }) => {
+  return <p className="h-10 w-20 font-bold flex justify-center">{studyTime}</p>;
 };
 
 const StudyLogDay: React.FC<StudyLogDayProps> = ({
   isCatStickerApplied,
-  timer,
+  studyTime,
   day,
 }: StudyLogDayProps) => {
   return (
     <div className="bg-white mx-auto h-[150px] flex flex-col items-center justify-center">
       <Day day={day} />
       <Sticker isCatStickerApplied={isCatStickerApplied} />
-      <Timer timer={timer} />
+      <Timer studyTime={studyTime} />
     </div>
   );
 };

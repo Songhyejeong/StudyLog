@@ -6,6 +6,7 @@ import Stopwatch from '../Stopwatch/Stopwatch';
 interface SelectedTodoProps {
   todo: TodoListType;
 }
+
 const SelectedTodo: React.FC<SelectedTodoProps> = ({
   todo,
 }: SelectedTodoProps) => {
@@ -18,7 +19,7 @@ const SelectedTodo: React.FC<SelectedTodoProps> = ({
       />
       <TodoList todoList={todo.todoList} />
       <div className="flex justify-center mt-20">
-        <Stopwatch />
+        <Stopwatch studyTime={todo.studyTime} />
       </div>
     </main>
   );
