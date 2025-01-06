@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLoginButton from '../Button/GoogleLoginButton';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/common/useAuth';
 import StudyLogButton from '../Button/StudyLogButton';
-import { useLogout } from '../../hooks/useLogout';
+import { useLogout } from '../../hooks/common/useLogout';
 import { ToastContainer, toast } from 'react-toastify';
-import { useLogin } from '../../hooks/useLogin';
+import { useLogin } from '../../hooks/common/useLogin';
 
 const Header: React.FC = () => {
   const { googleLogin, loginError } = useAuth();
@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     googleLogin();
 
     if (loginError) {
-      toast('Login Error', {
+      toast('로그인 중 에러 발생', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     }
 
     if (!loginError) {
-      toast('Success Login', {
+      toast('로그인 시도 중', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
     googleLogout();
 
     if (logoutError) {
-      toast(' Logout Error', {
+      toast(' 로그아웃 중 에러 발생 ', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
     }
 
     if (!logoutError) {
-      toast('Success Logout', {
+      toast('로그아웃 시도 중', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
