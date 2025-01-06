@@ -24,9 +24,9 @@ const TodoContent: React.FC<TodoContentProps> = ({
         <Checkbox checked={isCompleted} onChange={handleCheckbox} />
         <p>{todo.todoName}</p>
       </div>
+
       <div className="flex flex-row gap-5">
         <p>{todo.priority}</p>
-
         <StudyLogButton
           text="삭제"
           size="small"
