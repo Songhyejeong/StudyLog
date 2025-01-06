@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import TextField from '../Form/TextFieldFrom';
 import StudyLogButton from '../Button/StudyLogButton';
 import { useForm } from 'react-hook-form';
+import useAddNewWeek from '../../hooks/studyLog/useAddNewWeek';
 
 interface AddWeekModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ const AddWeekModal: React.FC<AddWeekModalProps> = ({
   isOpen,
   onClick,
 }: AddWeekModalProps) => {
+  const { saveNewWeek } = useAddNewWeek();
   const {
     register,
     formState: { isSubmitting, errors },
@@ -30,7 +32,7 @@ const AddWeekModal: React.FC<AddWeekModalProps> = ({
         <div>
           <form
             className="w-80 h-auto bg-white rounded-lg p-6 shadow-md flex flex-col gap-10"
-            onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
+            onSubmit={handleSubmit((data) => saveNewWeek(data.title))}
           >
             <TextField
               id="title"

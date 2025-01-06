@@ -14,6 +14,7 @@ const Modal: React.FC = () => {
       setIsOpen(false);
     }
   };
+
   return (
     <>
       <div className="flex justify-center items-center">

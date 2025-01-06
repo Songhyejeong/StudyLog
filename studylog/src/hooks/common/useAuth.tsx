@@ -5,8 +5,8 @@ import {
   getAuth,
   onAuthStateChanged,
 } from 'firebase/auth';
-import app from '../firebaseConfig';
-import { useLogin } from './useLogin';
+import { app } from '../../firebaseConfig';
+import { useLogin } from '../common/useLogin';
 
 export const useAuth = () => {
   const provider = new GoogleAuthProvider();
@@ -39,6 +39,7 @@ export const useAuth = () => {
           localStorage.setItem('accessToken', token);
         }
         setUser(data.user);
+        console.log(data.user);
         setIsLoggedIn(true);
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../store/AuthContext';
 
 export const useLogin = () => {
   const googleLoginContext = useContext(AuthContext);
