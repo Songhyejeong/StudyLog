@@ -1,37 +1,36 @@
 import React, { useState } from 'react';
-import { TodoContentType } from '../../types';
+import { TodoContentType } from '../../../types';
 import { Checkbox } from '@mui/material';
-import StudyLogButton from '../Button/StudyLogButton';
+import StudyLogButton from '../../Button/StudyLogButton';
 
 interface TodoContentProps {
   todo: TodoContentType;
+  removeTodoContent: (id: string) => void;
 }
 
 const TodoContent: React.FC<TodoContentProps> = ({
   todo,
+  removeTodoContent,
 }: TodoContentProps) => {
-  const [isCompleted, setIsCompleted] = useState(todo.isChecked);
+  const [isChecked, setIsChecked] = useState(todo.isChecked);
 
-  const handleCheckbox = () => {
-    setIsCompleted(!isCompleted);
+  const handleCheckbox = (id: number) => {
+    setIsChecked(!isChecked);
   };
-
-  const deleteTodoService = () => {};
 
   return (
     <div className="flex flex-row items-center justify-between pr-4 border">
       <div className="flex flex-row items-center gap-5">
-        <Checkbox checked={isCompleted} onChange={handleCheckbox} />
+        <Checkbox checked={isChecked} onChange={() => handleCheckbox(1)} />
         <p>{todo.todoName}</p>
       </div>
 
       <div className="flex flex-row gap-5">
-        <p>{todo.priority}</p>
         <StudyLogButton
           text="삭제"
           size="small"
           color="delete"
-          onClick={deleteTodoService}
+          onClick={() => removeTodoContent(todo.id)}
         />
       </div>
     </div>

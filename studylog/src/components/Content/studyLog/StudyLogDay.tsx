@@ -1,17 +1,16 @@
 import React from 'react';
-import catSticker from '../../assets/cat.jpeg';
+import catSticker from '../../../assets/cat.jpeg';
 import { useNavigate } from 'react-router-dom';
-import { useSelectedDay } from '../../hooks/common/useSelectedDay';
 
 interface StudyLogDayProps {
-  id: string;
+  weekId: string;
   isCatStickerApplied: boolean;
   studyTime: number;
   day: string;
 }
 
 interface StikerProps {
-  id: string;
+  weekId: string;
   isCatStickerApplied: boolean;
   day: string;
 }
@@ -20,14 +19,15 @@ const Day: React.FC<{ day: string }> = ({ day }) => {
   return <p>{day}</p>;
 };
 
-const Sticker: React.FC<StikerProps> = ({ isCatStickerApplied, id, day }) => {
+const Sticker: React.FC<StikerProps> = ({
+  weekId,
+  day,
+  isCatStickerApplied,
+}) => {
   const navigate = useNavigate();
-  const { setDay, setIsCompleted } = useSelectedDay();
 
   const handleStickerClick = () => {
-    setDay(day);
-    setIsCompleted(true);
-    navigate(`/todo/${id}`);
+    navigate(`/todo/${weekId}/${day}`);
   };
 
   return (
@@ -68,12 +68,16 @@ const StudyLogDay: React.FC<StudyLogDayProps> = ({
   isCatStickerApplied,
   studyTime,
   day,
-  id,
+  weekId,
 }: StudyLogDayProps) => {
   return (
     <div className="bg-white mx-auto h-[150px] flex flex-col items-center justify-center">
       <Day day={day} />
-      <Sticker id={id} day={day} isCatStickerApplied={isCatStickerApplied} />
+      <Sticker
+        weekId={weekId}
+        day={day}
+        isCatStickerApplied={isCatStickerApplied}
+      />
       <Timer studyTime={studyTime} />
     </div>
   );

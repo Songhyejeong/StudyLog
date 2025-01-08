@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Main from './app/main/Main';
 import Todo from './app/todo/Todo';
-import { AuthProvider } from './store/AuthContext';
+import { AuthProvider } from './providers/AuthContext';
 
 const App: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ const App: React.FC = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Main />}></Route>
-            <Route path="todo/:id" element={<Todo />}></Route>
+            <Route path="todo/:weekId/:day" element={<Todo />}></Route>
           </Routes>
         </main>
       </AuthProvider>

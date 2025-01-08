@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { collection, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import { useAuth } from '../common/useAuth';
+import useAuth from '../common/useAuth';
 import { StudyLogWeekType } from '../../types';
 
-const useGetStudyLogs = () => {
+const useGetStudyLogWeeks = () => {
   const { user } = useAuth();
   const [data, setData] = useState<StudyLogWeekType[]>([]);
   const [error, setError] = useState<unknown>(null);
@@ -16,7 +16,7 @@ const useGetStudyLogs = () => {
       return;
     }
 
-    const getStudyLogs = async () => {
+    const getStudyLogWeeeks = async () => {
       setIsLoading(true);
       try {
         const collectionRef = collection(
@@ -24,6 +24,7 @@ const useGetStudyLogs = () => {
           'studyLogWeek'
         );
 
+        //여기 수정하기
         const querySnapshot = await getDocs(collectionRef);
 
         const logs: StudyLogWeekType[] = [];
@@ -39,10 +40,10 @@ const useGetStudyLogs = () => {
       }
     };
 
-    getStudyLogs();
+    getStudyLogWeeeks();
   }, [user]);
 
   return { data, isLoading, error };
 };
 
-export default useGetStudyLogs;
+export default useGetStudyLogWeeks;
