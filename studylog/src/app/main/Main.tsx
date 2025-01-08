@@ -1,14 +1,14 @@
 import React from 'react';
-import StudyLogList from '../../components/Content/StudyLogList';
+import StudyLogList from '../../components/Content/studyLog/StudyLogList';
 import Modal from '../../components/Modal/Modal';
-import { useLogin } from '../../hooks/common/useLogin';
-import useGetStudyLogs from '../../hooks/studyLog/useGetStudyLog';
+import useGetStudyLogWeeks from '../../hooks/studyLog/useGetStudyLogWeeks';
+import useAuth from '../../hooks/common/useAuth';
 
 const Main: React.FC = () => {
-  const { isLoggedIn } = useLogin();
-  const { data, isLoading } = useGetStudyLogs();
+  const { user } = useAuth();
+  const { data, isLoading } = useGetStudyLogWeeks();
 
-  if (!isLoggedIn) {
+  if (!user) {
     return <div>로그인 후 서비스를 이용해 주세요.</div>;
   }
 

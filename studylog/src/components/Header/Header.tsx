@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLoginButton from '../Button/GoogleLoginButton';
-import { useAuth } from '../../hooks/common/useAuth';
 import StudyLogButton from '../Button/StudyLogButton';
 import { useLogout } from '../../hooks/common/useLogout';
-import { ToastContainer, toast } from 'react-toastify';
 import { useLogin } from '../../hooks/common/useLogin';
+import useAuth from '../../hooks/common/useAuth';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Header: React.FC = () => {
-  const { googleLogin, loginError } = useAuth();
+  const { googleLogin, loginError } = useLogin();
   const { googleLogout, logoutError } = useLogout();
-  const { isLoggedIn } = useLogin();
+  const { user } = useAuth();
 
   const handleGoogleLogin = () => {
     googleLogin();
@@ -62,8 +62,8 @@ const Header: React.FC = () => {
         <Link to="/" className="text-2xl  text-gray-800 ">
           StudyLog
         </Link>
-        {!isLoggedIn && <GoogleLoginButton onClick={handleGoogleLogin} />}
-        {isLoggedIn && (
+        {!user && <GoogleLoginButton onClick={handleGoogleLogin} />}
+        {user && (
           <StudyLogButton
             text="Logout"
             color="primary"
