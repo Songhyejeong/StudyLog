@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StudyLogDayType } from '../../../types';
 import TodoList from './TodoList';
 import Stopwatch from '../../Stopwatch/Stopwatch';
-import StudyLogButton from '../../Button/StudyLogButton';
 import useTodo from '../../../hooks/todo/useTodo';
 import { v4 as uuidv4 } from 'uuid';
 import useGetTodoList from '../../../hooks/todo/useGetTodo';
@@ -16,7 +15,6 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   studyLogDay,
   weekId,
 }: SelectedDayProps) => {
-  const [stopwatch, setStopwatch] = useState(0);
   const [todoName, setTodoName] = useState<string>('');
   const { addTodo, removeTodo } = useTodo(studyLogDay.day);
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
@@ -26,12 +24,6 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   if (todoList) {
     studyLogDay.todoList = todoList;
   }
-
-  const saveDayTodoContent = () => {
-    /*TODO: isCompleted ? 
-      currentDay 저장하기
-    */
-  };
 
   const newTodoContent = {
     id: uuidv4(),
@@ -74,11 +66,10 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
         removeTodoContent={removeTodoContent}
       />
       <div className="flex justify-center mt-20 flex-col items-center w-[300px] gap-10">
-        <Stopwatch studyTime={studyLogDay.studyTime} />
-        <StudyLogButton
-          text="저장하기"
-          size="medium"
-          onClick={saveDayTodoContent}
+        <Stopwatch
+          weekId={weekId}
+          day={studyLogDay.day}
+          studyTime={studyLogDay.studyTime}
         />
       </div>
     </main>
