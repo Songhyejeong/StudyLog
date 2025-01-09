@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TodoContentType } from '../../../types';
 import TodoContent from './TodoContent';
 
 interface TodoListProps {
   todoList: TodoContentType[];
-
   removeTodoContent: (id: string) => void;
+  updateTodoContent: (id: string, isChecked: boolean) => void;
 }
 
 const TodoList: React.FC<TodoListProps> = ({
   todoList,
   removeTodoContent,
+  updateTodoContent,
 }: TodoListProps) => {
+  const [isCompleted, setIsCompleted] = useState(false);
+
   if (todoList.length === 0) {
     return <p>todoList를 추가해주세요</p>;
   }
@@ -23,6 +26,7 @@ const TodoList: React.FC<TodoListProps> = ({
           key={todo.id}
           todo={todo}
           removeTodoContent={removeTodoContent}
+          updateTodoContent={updateTodoContent}
         />
       ))}
     </div>

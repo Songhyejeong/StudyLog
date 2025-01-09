@@ -105,7 +105,69 @@ const useTodo = (day: string) => {
     }
   };
 
-  return { addTodo, removeTodo, isLoading, error };
+  const saveIsCheckedTodo = async (
+    todoId: string,
+    weekId: string,
+    isChecked: boolean
+  ) => {
+    setIsLoading(true);
+
+    if (!user) {
+      return;
+    }
+    try {
+      const docRef = doc(db, 'users', user.uid, 'studyLogWeek', weekId);
+      const docSnap = await getDoc(docRef);
+
+      if (docRef) {
+        const studyLogWeeks = docSnap.data()?.studyLogWeek;
+        const selectedDay = studyLogWeeks?.find(
+          (week: StudyLogDayType) => week.day === day
+        );
+        const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
+        const currentTodo = selectedDay.todoList.find(
+          (todo: TodoContentType) => todo.id === todoId
+        );
+        const currentTodoIndex = selectedDay.todoList.findIndex(
+          (todo: TodoContentType) => todo.id === todoId
+        );
+
+        console.log(currentTodo);
+
+        /**
+         * firebase에서 데이터를 수정하기 위해
+         *  현재 todo 데이터를 업데이트
+         */
+        const updatedTodo = {
+          ...currentTodo,
+          isChecked: isChecked,
+        };
+
+        const updatedTodoList = [
+          ...selectedDay.todoList.slice(0, currentTodoIndex),
+          updatedTodo,
+          ...selectedDay.todoList.slice(currentTodoIndex + 1),
+        ];
+
+        const updatedStudyLogWeek = updateStudyLogWeek(
+          studyLogWeeks,
+          dayIndex,
+          selectedDay,
+          updatedTodoList
+        );
+
+        await updateDoc(docRef, {
+          studyLogWeek: updatedStudyLogWeek,
+        });
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { addTodo, removeTodo, saveIsCheckedTodo, isLoading, error };
 };
 
 export default useTodo;

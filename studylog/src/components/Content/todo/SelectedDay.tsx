@@ -16,10 +16,20 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   weekId,
 }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
-  const { addTodo, removeTodo } = useTodo(studyLogDay.day);
+  const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(studyLogDay.day);
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
   const todoList = todoListData?.todoList;
+
+  let count = 0;
+  studyLogDay.todoList.forEach((todo) => {
+    if (todo.isChecked) {
+      count++;
+    }
+  });
+
+  if (count === todoList?.length) {
+  }
 
   if (todoList) {
     studyLogDay.todoList = todoList;
@@ -31,7 +41,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
     todoName,
   };
 
-  const addDayTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
+  const addTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await addTodo(weekId, newTodoContent);
     if (getTodoList) {
@@ -46,15 +56,23 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
     }
   };
 
+  const updateTodoContent = async (todoId: string, isChecked: boolean) => {
+    await saveIsCheckedTodo(todoId, weekId, isChecked);
+    if (getTodoList) {
+      getTodoList();
+    }
+  };
+
   return (
     <main className="w-[780px] flex flex-col  items-center gap-10  h-screen bg-background px-10 py-10">
       <p className="text-2xl">{studyLogDay.day}</p>
-      <form onSubmit={(e) => addDayTodoContent(e)}>
+      <form onSubmit={(e) => addTodoContent(e)}>
         <label className="flex flex-row w-[600px] items-center">
           <p className=" w-[100px]">할 일 추가:</p>
           <input
             onChange={(e) => setTodoName(e.target.value)}
             name="todo"
+            value={todoName}
             placeholder="Enter your todo List"
             className="w-full h-10 rounded-md px-6"
           />
@@ -64,6 +82,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
       <TodoList
         todoList={studyLogDay.todoList}
         removeTodoContent={removeTodoContent}
+        updateTodoContent={updateTodoContent}
       />
       <div className="flex justify-center mt-20 flex-col items-center w-[300px] gap-10">
         <Stopwatch
