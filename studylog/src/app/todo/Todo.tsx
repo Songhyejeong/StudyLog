@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SelectedDay from '../../components/Content/todo/SelectedDay';
 import useGetStudyLogDay from '../../hooks/studyLog/useGetStudyLogDay';
 import { useParams } from 'react-router-dom';

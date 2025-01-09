@@ -6,7 +6,7 @@ import useAuth from '../../hooks/common/useAuth';
 
 const Main: React.FC = () => {
   const { user } = useAuth();
-  const { data, isLoading } = useGetStudyLogWeeks();
+  const { data, isLoading, refetch } = useGetStudyLogWeeks();
 
   if (!user) {
     return <div>로그인 후 서비스를 이용해 주세요.</div>;
@@ -17,9 +17,10 @@ const Main: React.FC = () => {
   }
 
   return (
-    <main className="w-[780px] flex flex-col gap-10 justify-center h-screen bg-background px-10 py-10">
+    <main className="w-[780px] flex flex-col gap-10 justify-center h-auto bg-background px-10 py-10">
+      <p>모든 할일을 완료하면 고양이 스티커가 부착돼요!</p>
       <StudyLogList studyLogList={data} />
-      <Modal />
+      <Modal refetch={refetch} />
     </main>
   );
 };

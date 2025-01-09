@@ -132,8 +132,6 @@ const useTodo = (day: string) => {
           (todo: TodoContentType) => todo.id === todoId
         );
 
-        console.log(currentTodo);
-
         /**
          * firebase에서 데이터를 수정하기 위해
          *  현재 todo 데이터를 업데이트

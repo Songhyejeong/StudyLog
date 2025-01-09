@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TodoContentType } from '../../../types';
 import TodoContent from './TodoContent';
 
@@ -13,8 +13,6 @@ const TodoList: React.FC<TodoListProps> = ({
   removeTodoContent,
   updateTodoContent,
 }: TodoListProps) => {
-  const [isCompleted, setIsCompleted] = useState(false);
-
   if (todoList.length === 0) {
     return <p>todoList를 추가해주세요</p>;
   }

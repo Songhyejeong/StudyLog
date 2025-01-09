@@ -33,7 +33,7 @@ const useGetStudyLogDay = (weekId: string, day: string) => {
             setStudyLogDay(selectedDay);
           }
         } else {
-          console.log('Document does not exist');
+          console.log('Documnet가 존재하지 않습니다.');
         }
       } catch (error) {
         setError(error);

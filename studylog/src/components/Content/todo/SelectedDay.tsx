@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StudyLogDayType } from '../../../types';
 import TodoList from './TodoList';
 import Stopwatch from '../../Stopwatch/Stopwatch';
 import useTodo from '../../../hooks/todo/useTodo';
 import { v4 as uuidv4 } from 'uuid';
 import useGetTodoList from '../../../hooks/todo/useGetTodo';
+import useSaveCatSticker from '../../../hooks/todo/useSaveCatSticker';
+import useGetStudyLogWeeks from '../../../hooks/studyLog/useGetStudyLogWeeks';
 
 interface SelectedDayProps {
   studyLogDay: StudyLogDayType;
@@ -17,23 +19,34 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
 }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
   const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(studyLogDay.day);
+
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
   const todoList = todoListData?.todoList;
 
-  let count = 0;
-  studyLogDay.todoList.forEach((todo) => {
-    if (todo.isChecked) {
-      count++;
-    }
-  });
-
-  if (count === todoList?.length) {
-  }
+  const { saveStickerStatus } = useSaveCatSticker(studyLogDay.day);
+  const { refetch } = useGetStudyLogWeeks();
 
   if (todoList) {
     studyLogDay.todoList = todoList;
   }
+
+  useEffect(() => {
+    let count = 0;
+    studyLogDay.todoList.forEach((todo) => {
+      if (todo.isChecked) {
+        count++;
+      }
+    });
+
+    if (todoList?.length !== 0 && count === todoList?.length) {
+      saveStickerStatus(weekId, true);
+    } else {
+      saveStickerStatus(weekId, false);
+    }
+
+    refetch();
+  }, [todoList]);
 
   const newTodoContent = {
     id: uuidv4(),

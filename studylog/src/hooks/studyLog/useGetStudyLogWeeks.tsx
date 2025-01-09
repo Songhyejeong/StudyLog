@@ -9,10 +9,10 @@ const useGetStudyLogWeeks = () => {
   const [data, setData] = useState<StudyLogWeekType[]>([]);
   const [error, setError] = useState<unknown>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefetch, setIsRefetch] = useState(false);
 
   useEffect(() => {
     if (!user) {
-      setData([]);
       return;
     }
 
@@ -24,26 +24,32 @@ const useGetStudyLogWeeks = () => {
           'studyLogWeek'
         );
 
-        //여기 수정하기
-        const querySnapshot = await getDocs(collectionRef);
+        const colSnap = await getDocs(collectionRef);
 
-        const logs: StudyLogWeekType[] = [];
-        querySnapshot.forEach((doc) => {
-          logs.push(doc.data() as StudyLogWeekType);
+        const data: StudyLogWeekType[] = [];
+        colSnap.forEach((doc) => {
+          data.push(doc.data() as StudyLogWeekType);
         });
 
-        setData(logs);
+        setData(data);
       } catch (error) {
         setError(error);
       } finally {
+        if (isRefetch) {
+          setIsRefetch(false);
+        }
         setIsLoading(false);
       }
     };
 
     getStudyLogWeeeks();
-  }, [user]);
+  }, [user, isRefetch]);
 
-  return { data, isLoading, error };
+  const refetch = () => {
+    setIsRefetch(true);
+  };
+
+  return { data, isLoading, error, refetch };
 };
 
 export default useGetStudyLogWeeks;

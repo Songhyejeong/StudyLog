@@ -28,7 +28,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
           clip-rule="evenodd"
         />
       </svg>
-      Sign in with Google
+      구글로 로그인하기
     </button>
   );
 };
