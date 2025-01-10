@@ -9,11 +9,12 @@ import { toast } from 'react-toastify';
 const useSaveStopwatchTime = (day: string) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | ''>('null');
 
   const saveStopwatchTime = async (weekId: string, totalSecond: number) => {
     setIsLoading(true);
     if (!user) {
+      setErrorMessage('사용자를 찾지 못했습니다.');
       return;
     }
 
@@ -50,9 +51,9 @@ const useSaveStopwatchTime = (day: string) => {
         });
       }
     } catch (error) {
-      setError(error);
+      setErrorMessage('공부 시간 저장 중 오류 발생');
 
-      toast.error('공부 시간 저장 중 에러 발생', {
+      toast.error(errorMessage, {
         position: 'top-right',
         autoClose: 2000,
         hideProgressBar: true,
@@ -64,7 +65,7 @@ const useSaveStopwatchTime = (day: string) => {
     }
   };
 
-  return { saveStopwatchTime, isLoading, error };
+  return { saveStopwatchTime, isLoading };
 };
 
 export default useSaveStopwatchTime;

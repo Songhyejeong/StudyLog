@@ -13,6 +13,7 @@ const useGetStudyLogDay = (weekId: string, day: string) => {
 
   useEffect(() => {
     if (!user) {
+      setError('사용자를 찾지 못했습니다.');
       return;
     }
 

@@ -4,6 +4,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../common/useAuth';
 import { WEEK_DAY } from '../../constants/STUDYLOGWEEK';
 import { TodoContentType, StudyLogDayType } from '../../types';
+import { toast } from 'react-toastify';
 
 export type TodoServiceType = 'ADD' | 'REMOVE' | 'UPDATE';
 
@@ -17,7 +18,7 @@ interface TodoServieceProps {
 const useTodoService = (day: string, weekId: string) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | ''>('null');
 
   const todoService = async ({
     todoServiceType,
@@ -27,6 +28,7 @@ const useTodoService = (day: string, weekId: string) => {
   }: TodoServieceProps) => {
     setIsLoading(true);
     if (!user) {
+      setErrorMessage('사용자를 찾지 못했습니다.');
       return;
     }
 
@@ -86,13 +88,21 @@ const useTodoService = (day: string, weekId: string) => {
         });
       }
     } catch (error) {
-      setError(error);
+      setErrorMessage('할일 업데이트 중 오류 발생');
+
+      toast.error(errorMessage, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        theme: 'light',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { todoService, isLoading, error };
+  return { todoService, isLoading };
 };
 
 export default useTodoService;
