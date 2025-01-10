@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StudyLogDayType } from '../../../types';
+import { StudyLogDayType, TodoContentType } from '../../../types';
 import TodoList from './TodoList';
 import Stopwatch from '../../Stopwatch/Stopwatch';
-import useTodo from '../../../hooks/todo/useTodo';
 import { v4 as uuidv4 } from 'uuid';
 import useGetTodoList from '../../../hooks/todo/useGetTodo';
 import useSaveCatSticker from '../../../hooks/todo/useSaveCatSticker';
 import useGetStudyLogWeeks from '../../../hooks/studyLog/useGetStudyLogWeeks';
 import TodoInputField from './TodoInputField';
+import useTodoService from '../../../hooks/todo/useTodo';
 
 interface SelectedDayProps {
   studyLogDay: StudyLogDayType;
@@ -19,10 +19,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   weekId,
 }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
-  const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(
-    studyLogDay.day,
-    weekId
-  );
+  const { todoService } = useTodoService(studyLogDay.day, weekId);
 
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
@@ -52,7 +49,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
     refetch();
   }, [todoList]);
 
-  const newTodoContent = {
+  const newTodo: TodoContentType = {
     id: uuidv4(),
     isChecked: false,
     todoName,
@@ -60,21 +57,28 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
 
   const addTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await addTodo(newTodoContent);
+    await todoService({ todoServiceType: 'ADD', newTodo: newTodo });
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const removeTodoContent = async (todoId: string) => {
-    await removeTodo(todoId);
+    await todoService({
+      todoServiceType: 'REMOVE',
+      todoId: todoId,
+    });
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const updateTodoContent = async (todoId: string, isChecked: boolean) => {
-    await saveIsCheckedTodo(todoId, isChecked);
+    await todoService({
+      todoServiceType: 'UPDATE',
+      todoId: todoId,
+      isChecked: isChecked,
+    });
     if (getTodoList) {
       getTodoList();
     }

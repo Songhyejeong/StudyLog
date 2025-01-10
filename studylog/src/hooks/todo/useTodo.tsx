@@ -9,28 +9,26 @@ import {
   StudyLogWeekType,
 } from '../../types';
 
-const useTodo = (day: string) => {
+export type TodoServiceType = 'ADD' | 'REMOVE' | 'UPDATE';
+
+interface TodoServieceProps {
+  todoServiceType: TodoServiceType;
+  newTodo?: TodoContentType;
+  todoId?: string;
+  isChecked?: boolean;
+}
+
+const useTodoService = (day: string, weekId: string) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
 
-  const updateStudyLogWeek = (
-    currentStudyLogWeek: StudyLogWeekType[],
-    dayIndex: number,
-    selectedDay: StudyLogDayType,
-    updatedTodoList: TodoContentType[]
-  ) => {
-    return [
-      ...currentStudyLogWeek.slice(0, dayIndex),
-      {
-        ...selectedDay,
-        todoList: updatedTodoList,
-      },
-      ...currentStudyLogWeek.slice(dayIndex + 1),
-    ];
-  };
-
-  const addTodo = async (weekId: string, newTodo: TodoContentType) => {
+  const todoService = async ({
+    todoServiceType,
+    newTodo,
+    todoId,
+    isChecked,
+  }: TodoServieceProps) => {
     setIsLoading(true);
     if (!user) {
       return;
@@ -45,115 +43,48 @@ const useTodo = (day: string) => {
         const selectedDay = studyLogWeeks?.find(
           (week: StudyLogDayType) => week.day === day
         );
+
         const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
+        let updatedTodoList;
 
-        const updatedTodoList = [...(selectedDay?.todoList || []), newTodo];
-        const updatedStudyLogWeek = updateStudyLogWeek(
-          studyLogWeeks,
-          dayIndex,
-          selectedDay,
-          updatedTodoList
-        );
+        if (todoServiceType === 'ADD') {
+          updatedTodoList = [...(selectedDay?.todoList || []), newTodo];
+        }
 
-        await updateDoc(docRef, {
-          studyLogWeek: updatedStudyLogWeek,
-        });
-      }
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        if (todoServiceType === 'REMOVE') {
+          updatedTodoList = selectedDay.todoList.filter(
+            (todo: TodoContentType) => todo.id !== todoId
+          );
+        }
 
-  const removeTodo = async (todoId: string, weekId: string) => {
-    setIsLoading(true);
+        if (todoServiceType === 'UPDATE') {
+          const currentTodo = selectedDay.todoList.find(
+            (todo: TodoContentType) => todo.id === todoId
+          );
+          const currentTodoIndex = selectedDay.todoList.findIndex(
+            (todo: TodoContentType) => todo.id === todoId
+          );
+          const updatedTodo = {
+            ...currentTodo,
+            isChecked: isChecked,
+          };
 
-    if (!user) {
-      return;
-    }
+          updatedTodoList = [
+            ...selectedDay.todoList.slice(0, currentTodoIndex),
+            updatedTodo,
+            ...selectedDay.todoList.slice(currentTodoIndex + 1),
+          ];
+        }
 
-    try {
-      const docRef = doc(db, 'users', user.uid, 'studyLogWeek', weekId);
-      const docSnap = await getDoc(docRef);
-
-      if (docRef) {
-        const studyLogWeeks = docSnap.data()?.studyLogWeek;
-        const selectedDay = studyLogWeeks?.find(
-          (week: StudyLogDayType) => week.day === day
-        );
-        const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
-
-        const updatedTodoList = selectedDay.todoList.filter(
-          (todo: TodoContentType) => todo.id !== todoId
-        );
-        const updatedStudyLogWeek = updateStudyLogWeek(
-          studyLogWeeks,
-          dayIndex,
-          selectedDay,
-          updatedTodoList
-        );
-
-        await updateDoc(docRef, {
-          studyLogWeek: updatedStudyLogWeek,
-        });
-      }
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const saveIsCheckedTodo = async (
-    todoId: string,
-    weekId: string,
-    isChecked: boolean
-  ) => {
-    setIsLoading(true);
-
-    if (!user) {
-      return;
-    }
-    try {
-      const docRef = doc(db, 'users', user.uid, 'studyLogWeek', weekId);
-      const docSnap = await getDoc(docRef);
-
-      if (docRef) {
-        const studyLogWeeks = docSnap.data()?.studyLogWeek;
-        const selectedDay = studyLogWeeks?.find(
-          (week: StudyLogDayType) => week.day === day
-        );
-        const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
-        const currentTodo = selectedDay.todoList.find(
-          (todo: TodoContentType) => todo.id === todoId
-        );
-        const currentTodoIndex = selectedDay.todoList.findIndex(
-          (todo: TodoContentType) => todo.id === todoId
-        );
-
-        /**
-         * firebase에서 데이터를 수정하기 위해
-         *  현재 todo 데이터를 업데이트
-         */
-        const updatedTodo = {
-          ...currentTodo,
-          isChecked: isChecked,
-        };
-
-        const updatedTodoList = [
-          ...selectedDay.todoList.slice(0, currentTodoIndex),
-          updatedTodo,
-          ...selectedDay.todoList.slice(currentTodoIndex + 1),
+        const updatedStudyLogWeek = [
+          ...studyLogWeeks.slice(0, dayIndex),
+          {
+            ...selectedDay,
+            todoList: updatedTodoList,
+          },
+          ...studyLogWeeks.slice(dayIndex + 1),
         ];
 
-        const updatedStudyLogWeek = updateStudyLogWeek(
-          studyLogWeeks,
-          dayIndex,
-          selectedDay,
-          updatedTodoList
-        );
-
         await updateDoc(docRef, {
           studyLogWeek: updatedStudyLogWeek,
         });
@@ -165,7 +96,7 @@ const useTodo = (day: string) => {
     }
   };
 
-  return { addTodo, removeTodo, saveIsCheckedTodo, isLoading, error };
+  return { todoService, isLoading, error };
 };
 
-export default useTodo;
+export default useTodoService;
