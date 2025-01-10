@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import Main from './app/main/Main';
 import Todo from './app/todo/Todo';
 import { AuthProvider } from './providers/AuthContext';
+import { ToastContainer } from 'react-toastify';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Main />}></Route>
             <Route path="todo/:weekId/:day" element={<Todo />}></Route>
           </Routes>
+          <ToastContainer />
         </main>
       </AuthProvider>
     </BrowserRouter>
