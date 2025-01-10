@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useGetTodoList from '../../../hooks/todo/useGetTodo';
 import useSaveCatSticker from '../../../hooks/todo/useSaveCatSticker';
 import useGetStudyLogWeeks from '../../../hooks/studyLog/useGetStudyLogWeeks';
+import TodoInputField from './TodoInputField';
 
 interface SelectedDayProps {
   studyLogDay: StudyLogDayType;
@@ -18,7 +19,10 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   weekId,
 }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
-  const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(studyLogDay.day);
+  const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(
+    studyLogDay.day,
+    weekId
+  );
 
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
@@ -56,21 +60,21 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
 
   const addTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await addTodo(weekId, newTodoContent);
+    await addTodo(newTodoContent);
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const removeTodoContent = async (todoId: string) => {
-    await removeTodo(todoId, weekId);
+    await removeTodo(todoId);
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const updateTodoContent = async (todoId: string, isChecked: boolean) => {
-    await saveIsCheckedTodo(todoId, weekId, isChecked);
+    await saveIsCheckedTodo(todoId, isChecked);
     if (getTodoList) {
       getTodoList();
     }
@@ -79,19 +83,11 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   return (
     <main className="w-[780px] flex flex-col  items-center gap-10  h-screen bg-background px-10 py-10">
       <p className="text-2xl">{studyLogDay.day}</p>
-      <form onSubmit={(e) => addTodoContent(e)}>
-        <label className="flex flex-row w-[600px] items-center">
-          <p className=" w-[100px]">할 일 추가:</p>
-          <input
-            onChange={(e) => setTodoName(e.target.value)}
-            name="todo"
-            value={todoName}
-            placeholder="Enter your todo List"
-            className="w-full h-10 rounded-md px-6"
-          />
-        </label>
-      </form>
-
+      <TodoInputField
+        addTodoContent={addTodoContent}
+        setTodoName={setTodoName}
+        todoName={todoName}
+      />
       <TodoList
         todoList={studyLogDay.todoList}
         removeTodoContent={removeTodoContent}
