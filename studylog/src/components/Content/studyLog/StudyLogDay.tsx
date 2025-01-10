@@ -33,7 +33,7 @@ const Sticker: React.FC<StikerProps> = ({
   return (
     <div
       onClick={handleStickerClick}
-      className="bg-neutral w-14 h-14 flex justify-center items-center rounded-full overflow-hidden cursor-pointer"
+      className="bg-background w-14 h-14 flex justify-center items-center rounded-full overflow-hidden cursor-pointer"
     >
       {isCatStickerApplied && (
         <img
