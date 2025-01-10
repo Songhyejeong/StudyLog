@@ -2,6 +2,7 @@ import React from 'react';
 
 interface StudyLogButton {
   text: string;
+  type?: 'submit' | 'button';
   disabled?: boolean;
   size?: 'small' | 'medium' | 'large';
   color?: 'primary' | 'white' | 'delete';
@@ -22,6 +23,7 @@ const colorGroup = {
 
 const StudyLogButton: React.FC<StudyLogButton> = ({
   text,
+  type,
   disabled = false,
   size = 'medium',
   color = 'primary',
@@ -30,6 +32,7 @@ const StudyLogButton: React.FC<StudyLogButton> = ({
   return (
     <button
       disabled={disabled}
+      type={type}
       onClick={onClick}
       className={`rounded-lg font-semibold transition-all ${sizeGroup[size]} ${
         disabled
