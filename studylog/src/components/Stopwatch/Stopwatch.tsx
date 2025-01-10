@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import StudyLogButton from '../Button/StudyLogButton';
+import useSaveStopwatchTime from '../../hooks/todo/useSaveTimer';
+import { weekType } from '../../types';
 
 interface StopwatchProps {
   studyTime: number;
+  day: weekType;
+  weekId: string;
 }
 
-const Stopwatch: React.FC<StopwatchProps> = ({ studyTime }: StopwatchProps) => {
+const Stopwatch: React.FC<StopwatchProps> = ({
+  studyTime,
+  day,
+  weekId,
+}: StopwatchProps) => {
   const [currentSeconds, setCurrentSeconds] = useState<number>(studyTime);
   const [currentTime, setCurrentTime] = useState<string>();
   const [nIntervId, setNIntervId] = useState<NodeJS.Timeout | undefined>(
     undefined
   );
+
+  const { saveStopwatchTime } = useSaveStopwatchTime(day);
 
   const getTime = (totalSeconds: number) => {
     const hours = Math.floor(totalSeconds / 3600);
@@ -49,6 +59,10 @@ const Stopwatch: React.FC<StopwatchProps> = ({ studyTime }: StopwatchProps) => {
     }
   };
 
+  const saveDayTodoContent = () => {
+    saveStopwatchTime(weekId, currentSeconds);
+  };
+
   return (
     <div className="rounded-full bg-white w-[250px] h-[250px] flex  flex-col gap-5 justify-center items-center shadow-md">
       <p className="text-2xl">{currentTime}</p>
@@ -66,6 +80,11 @@ const Stopwatch: React.FC<StopwatchProps> = ({ studyTime }: StopwatchProps) => {
           onClick={startStopwatch}
         />
       </div>
+      <StudyLogButton
+        text="공부시간 저장하기"
+        size="small"
+        onClick={saveDayTodoContent}
+      />
     </div>
   );
 };

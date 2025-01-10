@@ -1,22 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLoginButton from '../Button/GoogleLoginButton';
-import { useAuth } from '../../hooks/useAuth';
 import StudyLogButton from '../Button/StudyLogButton';
-import { useLogout } from '../../hooks/useLogout';
+import { useLogout } from '../../hooks/common/useLogout';
+import { useLogin } from '../../hooks/common/useLogin';
+import useAuth from '../../hooks/common/useAuth';
 import { ToastContainer, toast } from 'react-toastify';
-import { useLogin } from '../../hooks/useLogin';
 
 const Header: React.FC = () => {
-  const { googleLogin, loginError } = useAuth();
+  const { googleLogin, loginError } = useLogin();
   const { googleLogout, logoutError } = useLogout();
-  const { isLoggedIn } = useLogin();
+  const { user } = useAuth();
 
   const handleGoogleLogin = () => {
     googleLogin();
 
     if (loginError) {
-      toast('Login Error', {
+      toast('로그인 중 에러 발생', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     }
 
     if (!loginError) {
-      toast('Success Login', {
+      toast('로그인 시도 중', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
     googleLogout();
 
     if (logoutError) {
-      toast(' Logout Error', {
+      toast(' 로그아웃 중 에러 발생 ', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
     }
 
     if (!logoutError) {
-      toast('Success Logout', {
+      toast('로그아웃 시도 중', {
         position: 'top-right',
         autoClose: 5000,
         closeOnClick: true,
@@ -62,8 +62,8 @@ const Header: React.FC = () => {
         <Link to="/" className="text-2xl  text-gray-800 ">
           StudyLog
         </Link>
-        {!isLoggedIn && <GoogleLoginButton onClick={handleGoogleLogin} />}
-        {isLoggedIn && (
+        {!user && <GoogleLoginButton onClick={handleGoogleLogin} />}
+        {user && (
           <StudyLogButton
             text="Logout"
             color="primary"

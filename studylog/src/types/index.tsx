@@ -1,26 +1,26 @@
-export interface StudyLogDayType {
-  isCatStickerApplied: boolean;
-  studyTime: number;
-  isToday?: boolean;
-  day: weekType;
-}
-
-export type weekType = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+import { User } from 'firebase/auth';
 
 export interface StudyLogWeekType {
+  id: string;
   title: string;
   studyLogWeek: StudyLogDayType[];
 }
 
-export interface TodoContentType {
-  id: number;
-  isChecked: boolean;
+export interface StudyLogDayType {
+  id: string;
+  isCatStickerApplied: boolean;
+  studyTime: number;
   isToday?: boolean;
-  todoName: string;
-  priority: 'high' | 'middle' | 'row';
-}
-
-export interface TodoListType
-  extends Omit<StudyLogDayType, 'isCatStickerApplied'> {
+  day: weekType;
   todoList: TodoContentType[];
 }
+
+export type weekType = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+
+export interface TodoContentType {
+  id: string;
+  isChecked: boolean;
+  todoName: string;
+}
+
+export type UserType = User | null;

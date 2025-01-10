@@ -1,19 +1,18 @@
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useLogin } from './useLogin';
+import useAuth from './useAuth';
 
 export const useLogout = () => {
   const auth = getAuth();
   const [logoutError, setLogoutError] = useState<unknown>(null);
   const navigate = useNavigate();
-
-  const { setIsLoggedIn } = useLogin();
+  const { login } = useAuth();
 
   const googleLogout = () => {
     signOut(auth)
       .then(() => {
-        setIsLoggedIn(false);
+        login(null);
         navigate('/');
       })
       .catch((error) => {
