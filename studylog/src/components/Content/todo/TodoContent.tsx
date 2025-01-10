@@ -28,7 +28,7 @@ const TodoContent: React.FC<TodoContentProps> = ({
     <div className="flex flex-row items-center justify-between pr-4 border">
       <div className="flex flex-row items-center gap-5">
         <Checkbox checked={isChecked} onChange={() => handleCheckbox()} />
-        <p>{todo.todoName}</p>
+        <p className={todo.isChecked ? 'line-through' : ''}>{todo.todoName}</p>
       </div>
 
       <div className="flex flex-row gap-5">
