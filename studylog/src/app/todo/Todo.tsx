@@ -12,7 +12,7 @@ const Todo: React.FC = () => {
   const { studyLogDay } = useGetStudyLogDay(weekId, day);
 
   if (!studyLogDay) {
-    return <p></p>;
+    return <p>요일 정보가 없습니다.</p>;
   }
 
   return <SelectedDay weekId={weekId} studyLogDay={studyLogDay} />;

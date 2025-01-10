@@ -67,6 +67,8 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
       closeOnClick: true,
       theme: 'light',
     });
+
+    setTodoName('');
     if (getTodoList) {
       getTodoList();
     }
