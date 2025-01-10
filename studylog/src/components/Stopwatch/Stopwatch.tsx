@@ -9,12 +9,15 @@ interface StopwatchProps {
   weekId: string;
 }
 
+type timerState = 'start' | 'stop';
+
 const Stopwatch: React.FC<StopwatchProps> = ({
   studyTime,
   day,
   weekId,
 }: StopwatchProps) => {
   const [currentSeconds, setCurrentSeconds] = useState<number>(studyTime);
+  const [timerState, setTimerState] = useState<timerState>('stop');
   const [currentTime, setCurrentTime] = useState<string>();
   const [nIntervId, setNIntervId] = useState<NodeJS.Timeout | undefined>(
     undefined
@@ -47,16 +50,20 @@ const Stopwatch: React.FC<StopwatchProps> = ({
   }, [currentSeconds]);
 
   const startStopwatch = () => {
+    if (timerState === 'start') return;
+
     const nIntervId = setInterval(() => {
       setCurrentSeconds((prev) => prev + 1);
     }, 1000);
 
     setNIntervId(nIntervId);
+    setTimerState('start');
   };
 
   const stopStopwatch = () => {
     if (nIntervId) {
       clearInterval(nIntervId);
+      setTimerState('stop');
     }
   };
 
