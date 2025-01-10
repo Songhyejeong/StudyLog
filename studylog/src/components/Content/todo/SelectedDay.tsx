@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StudyLogDayType } from '../../../types';
+import { StudyLogDayType, TodoContentType } from '../../../types';
 import TodoList from './TodoList';
 import Stopwatch from '../../Stopwatch/Stopwatch';
-import useTodo from '../../../hooks/todo/useTodo';
 import { v4 as uuidv4 } from 'uuid';
 import useGetTodoList from '../../../hooks/todo/useGetTodo';
 import useSaveCatSticker from '../../../hooks/todo/useSaveCatSticker';
 import useGetStudyLogWeeks from '../../../hooks/studyLog/useGetStudyLogWeeks';
+import TodoInputField from './TodoInputField';
+import useTodoService from '../../../hooks/todo/useTodo';
+import { toast } from 'react-toastify';
 
 interface SelectedDayProps {
   studyLogDay: StudyLogDayType;
@@ -18,7 +20,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   weekId,
 }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
-  const { addTodo, removeTodo, saveIsCheckedTodo } = useTodo(studyLogDay.day);
+  const { todoService } = useTodoService(studyLogDay.day, weekId);
 
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
@@ -48,7 +50,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
     refetch();
   }, [todoList]);
 
-  const newTodoContent = {
+  const newTodo: TodoContentType = {
     id: uuidv4(),
     isChecked: false,
     todoName,
@@ -56,21 +58,47 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
 
   const addTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await addTodo(weekId, newTodoContent);
+    await todoService({ todoServiceType: 'ADD', newTodo: newTodo });
+
+    toast.success('할일 추가 완료 ', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: 'light',
+    });
+
+    setTodoName('');
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const removeTodoContent = async (todoId: string) => {
-    await removeTodo(todoId, weekId);
+    await todoService({
+      todoServiceType: 'REMOVE',
+      todoId: todoId,
+    });
+
+    toast.success('할일 삭제 완료 ', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: 'light',
+    });
+
     if (getTodoList) {
       getTodoList();
     }
   };
 
   const updateTodoContent = async (todoId: string, isChecked: boolean) => {
-    await saveIsCheckedTodo(todoId, weekId, isChecked);
+    await todoService({
+      todoServiceType: 'UPDATE',
+      todoId: todoId,
+      isChecked: isChecked,
+    });
     if (getTodoList) {
       getTodoList();
     }
@@ -79,19 +107,11 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   return (
     <main className="w-[780px] flex flex-col  items-center gap-10  h-screen bg-background px-10 py-10">
       <p className="text-2xl">{studyLogDay.day}</p>
-      <form onSubmit={(e) => addTodoContent(e)}>
-        <label className="flex flex-row w-[600px] items-center">
-          <p className=" w-[100px]">할 일 추가:</p>
-          <input
-            onChange={(e) => setTodoName(e.target.value)}
-            name="todo"
-            value={todoName}
-            placeholder="Enter your todo List"
-            className="w-full h-10 rounded-md px-6"
-          />
-        </label>
-      </form>
-
+      <TodoInputField
+        addTodoContent={addTodoContent}
+        setTodoName={setTodoName}
+        todoName={todoName}
+      />
       <TodoList
         todoList={studyLogDay.todoList}
         removeTodoContent={removeTodoContent}

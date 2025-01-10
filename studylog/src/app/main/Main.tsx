@@ -19,7 +19,7 @@ const Main: React.FC = () => {
   return (
     <main className="w-[780px] flex flex-col gap-10 justify-center h-auto bg-background px-10 py-10">
       <p>모든 할일을 완료하면 고양이 스티커가 부착돼요!</p>
-      <StudyLogList studyLogList={data} />
+      <StudyLogList refetch={refetch} studyLogList={data} />
       <Modal refetch={refetch} />
     </main>
   );

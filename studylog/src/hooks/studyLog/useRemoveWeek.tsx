@@ -1,33 +1,25 @@
 import { useState } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import useAuth from '../common/useAuth';
-import { STUDYLOG_WEEEK } from '../../constants/STUDYLOGWEEK';
-import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 
-const useAddNewWeek = () => {
+const useRemoveWeek = () => {
   const { user } = useAuth();
   const [error, setError] = useState<unknown>(null);
 
-  const saveNewWeek = async (title: string) => {
+  const removeWeek = async (weekId: string) => {
     if (!user) {
       setError('사용자를 찾지 못했습니다.');
       return;
     }
 
-    const weekId: string = uuidv4();
-
     try {
       const docRef = doc(db, 'users', user.uid, 'studyLogWeek', weekId);
 
-      await setDoc(docRef, {
-        title: title,
-        id: weekId,
-        studyLogWeek: STUDYLOG_WEEEK,
-      });
+      await deleteDoc(docRef);
 
-      toast.success('새로운 주 추가 완료', {
+      toast.success('한 주 삭제 완료', {
         position: 'top-right',
         autoClose: 2000,
         hideProgressBar: true,
@@ -37,7 +29,7 @@ const useAddNewWeek = () => {
     } catch (error) {
       setError(error);
 
-      toast.error('새로운 주 추가 중 에러 발생', {
+      toast.error('한 주 삭제 중 에러 발생', {
         position: 'top-right',
         autoClose: 2000,
         hideProgressBar: true,
@@ -47,7 +39,7 @@ const useAddNewWeek = () => {
     }
   };
 
-  return { saveNewWeek, error };
+  return { removeWeek, error };
 };
 
-export default useAddNewWeek;
+export default useRemoveWeek;
