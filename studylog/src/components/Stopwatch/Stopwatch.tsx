@@ -50,6 +50,7 @@ const Stopwatch: React.FC<StopwatchProps> = ({
     const nIntervId = setInterval(() => {
       setCurrentSeconds((prev) => prev + 1);
     }, 1000);
+
     setNIntervId(nIntervId);
   };
 

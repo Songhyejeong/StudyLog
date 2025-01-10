@@ -3,11 +3,7 @@ import { db } from '../../firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../common/useAuth';
 import { WEEK_DAY } from '../../constants/STUDYLOGWEEK';
-import {
-  TodoContentType,
-  StudyLogDayType,
-  StudyLogWeekType,
-} from '../../types';
+import { TodoContentType, StudyLogDayType } from '../../types';
 
 export type TodoServiceType = 'ADD' | 'REMOVE' | 'UPDATE';
 

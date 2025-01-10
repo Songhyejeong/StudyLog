@@ -8,6 +8,7 @@ import useSaveCatSticker from '../../../hooks/todo/useSaveCatSticker';
 import useGetStudyLogWeeks from '../../../hooks/studyLog/useGetStudyLogWeeks';
 import TodoInputField from './TodoInputField';
 import useTodoService from '../../../hooks/todo/useTodo';
+import { toast } from 'react-toastify';
 
 interface SelectedDayProps {
   studyLogDay: StudyLogDayType;
@@ -58,6 +59,14 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   const addTodoContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await todoService({ todoServiceType: 'ADD', newTodo: newTodo });
+
+    toast.success('할일 추가 완료 ', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: 'light',
+    });
     if (getTodoList) {
       getTodoList();
     }
@@ -68,6 +77,15 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
       todoServiceType: 'REMOVE',
       todoId: todoId,
     });
+
+    toast.success('할일 삭제 완료 ', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: 'light',
+    });
+
     if (getTodoList) {
       getTodoList();
     }
