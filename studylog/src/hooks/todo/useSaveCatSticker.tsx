@@ -3,28 +3,12 @@ import { db } from '../../firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../common/useAuth';
 import { WEEK_DAY } from '../../constants/STUDYLOGWEEK';
-import { StudyLogDayType, StudyLogWeekType } from '../../types';
+import { StudyLogDayType } from '../../types';
 
 const useSaveCatSticker = (day: string) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-
-  const updateCatStickerApplied = (
-    currentStudyLogWeek: StudyLogWeekType[],
-    dayIndex: number,
-    selectedDay: StudyLogDayType,
-    isCatStickerApplied: boolean
-  ) => {
-    return [
-      ...currentStudyLogWeek.slice(0, dayIndex),
-      {
-        ...selectedDay,
-        isCatStickerApplied,
-      },
-      ...currentStudyLogWeek.slice(dayIndex + 1),
-    ];
-  };
 
   const saveStickerStatus = async (
     weekId: string,
@@ -46,12 +30,14 @@ const useSaveCatSticker = (day: string) => {
         );
         const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
 
-        const updatedStudyLogWeek = updateCatStickerApplied(
-          studyLogWeeks,
-          dayIndex,
-          selectedDay,
-          isCatStickerApplied
-        );
+        const updatedStudyLogWeek = [
+          ...studyLogWeeks.slice(0, dayIndex),
+          {
+            ...selectedDay,
+            isCatStickerApplied,
+          },
+          ...studyLogWeeks.slice(dayIndex + 1),
+        ];
 
         await updateDoc(docRef, {
           studyLogWeek: updatedStudyLogWeek,

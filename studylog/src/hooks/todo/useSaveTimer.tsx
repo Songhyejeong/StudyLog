@@ -3,28 +3,13 @@ import { db } from '../../firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../common/useAuth';
 import { WEEK_DAY } from '../../constants/STUDYLOGWEEK';
-import { StudyLogDayType, StudyLogWeekType } from '../../types';
+import { StudyLogDayType } from '../../types';
+import { toast } from 'react-toastify';
 
 const useSaveStopwatchTime = (day: string) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-
-  const updateStopwatchTime = (
-    currentStudyLogWeek: StudyLogWeekType[],
-    dayIndex: number,
-    selectedDay: StudyLogDayType,
-    totalSecond: number
-  ) => {
-    return [
-      ...currentStudyLogWeek.slice(0, dayIndex),
-      {
-        ...selectedDay,
-        studyTime: totalSecond,
-      },
-      ...currentStudyLogWeek.slice(dayIndex + 1),
-    ];
-  };
 
   const saveStopwatchTime = async (weekId: string, totalSecond: number) => {
     setIsLoading(true);
@@ -43,19 +28,37 @@ const useSaveStopwatchTime = (day: string) => {
         );
         const dayIndex = WEEK_DAY.findIndex((weekDay) => weekDay === day);
 
-        const updatedStudyLogWeek = updateStopwatchTime(
-          studyLogWeeks,
-          dayIndex,
-          selectedDay,
-          totalSecond
-        );
+        const updatedStudyLogWeek = [
+          ...studyLogWeeks.slice(0, dayIndex),
+          {
+            ...selectedDay,
+            studyTime: totalSecond,
+          },
+          ...studyLogWeeks.slice(dayIndex + 1),
+        ];
 
         await updateDoc(docRef, {
           studyLogWeek: updatedStudyLogWeek,
         });
+
+        toast.success('공부 시간 저장 완료', {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          theme: 'light',
+        });
       }
     } catch (error) {
       setError(error);
+
+      toast.error('공부 시간 저장 중 에러 발생', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        theme: 'light',
+      });
     } finally {
       setIsLoading(false);
     }
