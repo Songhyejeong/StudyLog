@@ -54,5 +54,5 @@ export const useLogin = () => {
       });
   };
 
-  return { googleLogin, user, loginError };
+  return { googleLogin, user, loginError, isInitialLogin };
 };
