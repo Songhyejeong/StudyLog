@@ -7,8 +7,8 @@ import { useLogin } from '../../hooks/common/useLogin';
 import useAuth from '../../hooks/common/useAuth';
 
 const Header: React.FC = () => {
-  const { googleLogin, loginError } = useLogin();
-  const { googleLogout, logoutError } = useLogout();
+  const { googleLogin } = useLogin();
+  const { googleLogout } = useLogout();
   const { user } = useAuth();
 
   const handleGoogleLogin = async () => {
