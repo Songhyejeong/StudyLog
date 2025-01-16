@@ -105,7 +105,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
   };
 
   return (
-    <main className="w-[780px] flex flex-col  items-center gap-10  h-screen bg-background px-10 py-10">
+    <main className="w-[780px] h-full flex flex-col  items-center gap-10  bg-background px-10 py-10">
       <p className="text-2xl">{studyLogDay.day}</p>
       <TodoInputField
         addTodoContent={addTodoContent}
