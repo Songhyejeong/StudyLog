@@ -3,7 +3,6 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import useAuth from '../common/useAuth';
 import { STUDYLOG_WEEEK } from '../../constants/STUDYLOGWEEK';
-import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 
 const useAddNewWeek = () => {
@@ -16,7 +15,7 @@ const useAddNewWeek = () => {
       return;
     }
 
-    const weekId: string = uuidv4();
+    const weekId: string = new Date().toISOString();
 
     try {
       const docRef = doc(db, 'users', user.uid, 'studyLogWeek', weekId);
