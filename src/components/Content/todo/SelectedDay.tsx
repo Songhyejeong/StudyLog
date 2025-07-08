@@ -24,7 +24,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
 
   const todoListData = useGetTodoList(weekId, studyLogDay.day);
   const getTodoList = todoListData?.getTodoList;
-  const todoList = todoListData ? todoListData.todoList : [];
+  const todoList = todoListData?.todoList;
 
   const { saveStickerStatus } = useSaveCatSticker(studyLogDay.day);
   const { refetch } = useGetStudyLogWeeks();
@@ -41,7 +41,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
       }
     });
 
-    if (todoList && todoList.length !== 0 && count >= todoList.length * 0.7) {
+    if (todoList?.length !== 0 && count === todoList?.length) {
       saveStickerStatus(weekId, true);
     } else {
       saveStickerStatus(weekId, false);
