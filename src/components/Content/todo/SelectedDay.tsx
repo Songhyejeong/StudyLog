@@ -41,7 +41,7 @@ const SelectedDay: React.FC<SelectedDayProps> = ({
       }
     });
 
-    if (todoList?.length !== 0 && count === todoList?.length) {
+    if (todoList && todoList.length !== 0 && count >= todoList.length * 0.7) {
       saveStickerStatus(weekId, true);
     } else {
       saveStickerStatus(weekId, false);
