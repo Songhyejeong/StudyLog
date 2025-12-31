@@ -1,9 +1,11 @@
 import { User } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 
 export interface StudyLogWeekType {
   id: string;
   title: string;
   studyLogWeek: StudyLogDayType[];
+  createdAt: Timestamp;
 }
 
 export interface StudyLogDayType {

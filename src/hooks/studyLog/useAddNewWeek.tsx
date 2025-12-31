@@ -5,6 +5,7 @@ import useAuth from '../common/useAuth';
 import { STUDYLOG_WEEEK } from '../../constants/STUDYLOGWEEK';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
+import { serverTimestamp } from 'firebase/firestore';
 
 const useAddNewWeek = () => {
   const { user } = useAuth();
@@ -25,6 +26,7 @@ const useAddNewWeek = () => {
         title: title,
         id: weekId,
         studyLogWeek: STUDYLOG_WEEEK,
+        createdAt: serverTimestamp(),
       });
 
       toast.success('새로운 주 추가 완료', {
