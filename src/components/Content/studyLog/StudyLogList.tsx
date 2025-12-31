@@ -10,7 +10,7 @@ const StudyLogList = ({ studyLogList, refetch }: StudyLogListProps) => {
   const sortedList = [...studyLogList].sort((a, b) => {
     const aTime = a.createdAt?.seconds ?? 0;
     const bTime = b.createdAt?.seconds ?? 0;
-    return aTime - bTime;
+    return bTime - aTime;
   });
 
   return (
