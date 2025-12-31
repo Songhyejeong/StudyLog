@@ -15,10 +15,7 @@ interface SelectedDayProps {
   weekId: string;
 }
 
-const SelectedDay: React.FC<SelectedDayProps> = ({
-  studyLogDay,
-  weekId,
-}: SelectedDayProps) => {
+const SelectedDay = ({ studyLogDay, weekId }: SelectedDayProps) => {
   const [todoName, setTodoName] = useState<string>('');
   const { todoService } = useTodoService(studyLogDay.day, weekId);
 

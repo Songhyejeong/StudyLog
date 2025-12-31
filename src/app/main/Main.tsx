@@ -1,10 +1,9 @@
-import React from 'react';
 import StudyLogList from '../../components/Content/studyLog/StudyLogList';
 import Modal from '../../components/Modal/Modal';
 import useGetStudyLogWeeks from '../../hooks/studyLog/useGetStudyLogWeeks';
 import useAuth from '../../hooks/common/useAuth';
 
-const Main: React.FC = () => {
+const Main = () => {
   const { user } = useAuth();
   const { data, isLoading, refetch } = useGetStudyLogWeeks();
 

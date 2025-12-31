@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLoginButton from '../Button/GoogleLoginButton';
 import StudyLogButton from '../Button/StudyLogButton';
@@ -6,7 +5,7 @@ import { useLogout } from '../../hooks/common/useLogout';
 import { useLogin } from '../../hooks/common/useLogin';
 import useAuth from '../../hooks/common/useAuth';
 
-const Header: React.FC = () => {
+const Header = () => {
   const { googleLogin } = useLogin();
   const { googleLogout } = useLogout();
   const { user } = useAuth();

@@ -19,11 +19,7 @@ const Day: React.FC<{ day: string }> = ({ day }) => {
   return <p>{day}</p>;
 };
 
-const Sticker: React.FC<StikerProps> = ({
-  weekId,
-  day,
-  isCatStickerApplied,
-}) => {
+const Sticker = ({ weekId, day, isCatStickerApplied }: StikerProps) => {
   const navigate = useNavigate();
 
   const handleStickerClick = () => {

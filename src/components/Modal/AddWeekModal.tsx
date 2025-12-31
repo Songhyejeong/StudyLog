@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import TextField from '../Form/TextFieldFrom';
 import StudyLogButton from '../Button/StudyLogButton';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ interface AddWeekModalProps {
   refetch: () => void;
 }
 
-const AddWeekModal: React.FC<AddWeekModalProps> = ({
+const AddWeekModal = ({
   isOpen,
   onClick,
   setIsOpen,

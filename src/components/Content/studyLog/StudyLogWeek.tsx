@@ -1,4 +1,3 @@
-import React from 'react';
 import { StudyLogDayType } from '../../../types';
 import StudyLogDay from './StudyLogDay';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +11,7 @@ interface StudyLogWeekProps {
   refetch: () => void;
 }
 
-const StudyLogWeek: React.FC<StudyLogWeekProps> = ({
+const StudyLogWeek = ({
   title,
   studyLogWeek,
   weekId,

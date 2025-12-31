@@ -6,7 +6,7 @@ interface ModalProps {
   refetch: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ refetch }) => {
+const Modal = ({ refetch }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleAddNewWeek = () => {

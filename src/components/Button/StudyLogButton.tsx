@@ -21,14 +21,14 @@ const colorGroup = {
   delete: 'bg-red-500 hover:bg-red-600 text-white',
 };
 
-const StudyLogButton: React.FC<StudyLogButton> = ({
+const StudyLogButton = ({
   text,
   type,
   disabled = false,
   size = 'medium',
   color = 'primary',
   onClick,
-}) => {
+}: StudyLogButton) => {
   return (
     <button
       disabled={disabled}

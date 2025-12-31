@@ -1,4 +1,3 @@
-import React from 'react';
 import { TodoContentType } from '../../../types';
 import TodoContent from './TodoContent';
 
@@ -8,7 +7,7 @@ interface TodoListProps {
   updateTodoContent: (id: string, isChecked: boolean) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({
+const TodoList = ({
   todoList,
   removeTodoContent,
   updateTodoContent,

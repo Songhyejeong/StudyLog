@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoContentType } from '../../../types';
 import { Checkbox } from '@mui/material';
 import StudyLogButton from '../../Button/StudyLogButton';
@@ -9,7 +9,7 @@ interface TodoContentProps {
   updateTodoContent: (id: string, isChecked: boolean) => void;
 }
 
-const TodoContent: React.FC<TodoContentProps> = ({
+const TodoContent = ({
   todo,
   removeTodoContent,
   updateTodoContent,

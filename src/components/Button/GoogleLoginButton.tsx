@@ -4,10 +4,7 @@ interface GoogleLoginButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
-  onClick,
-  ...props
-}: GoogleLoginButtonProps) => {
+const GoogleLoginButton = ({ onClick, ...props }: GoogleLoginButtonProps) => {
   return (
     <button
       onClick={onClick}

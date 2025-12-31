@@ -6,7 +6,7 @@ interface TodoInputFieldProps {
   todoName: string;
 }
 
-const TodoInputField: React.FC<TodoInputFieldProps> = ({
+const TodoInputField = ({
   addTodoContent,
   setTodoName,
   todoName,

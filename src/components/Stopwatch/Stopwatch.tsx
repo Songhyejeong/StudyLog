@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import StudyLogButton from '../Button/StudyLogButton';
 import useSaveStopwatchTime from '../../hooks/todo/useSaveTimer';
 import { weekType } from '../../types';
@@ -11,11 +11,7 @@ interface StopwatchProps {
 
 type timerState = 'start' | 'stop';
 
-const Stopwatch: React.FC<StopwatchProps> = ({
-  studyTime,
-  day,
-  weekId,
-}: StopwatchProps) => {
+const Stopwatch = ({ studyTime, day, weekId }: StopwatchProps) => {
   const [currentSeconds, setCurrentSeconds] = useState<number>(studyTime);
   const [timerState, setTimerState] = useState<timerState>('stop');
   const [currentTime, setCurrentTime] = useState<string>();

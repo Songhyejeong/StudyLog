@@ -1,4 +1,3 @@
-import React from 'react';
 import { StudyLogWeekType } from '../../../types';
 import StudyLogWeek from './StudyLogWeek';
 
@@ -7,10 +6,7 @@ interface StudyLogListProps {
   refetch: () => void;
 }
 
-const StudyLogList: React.FC<StudyLogListProps> = ({
-  studyLogList,
-  refetch,
-}: StudyLogListProps) => {
+const StudyLogList = ({ studyLogList, refetch }: StudyLogListProps) => {
   const sortedList = [...studyLogList].sort((a, b) => {
     const aTime = a.createdAt?.seconds ?? 0;
     const bTime = b.createdAt?.seconds ?? 0;
